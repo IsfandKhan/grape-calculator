@@ -1,4 +1,4 @@
-.button-box {
+.ButtonBox--button-box {
   width: 100%;
   height: calc(100% - 110px);
   display: grid;

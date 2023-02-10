@@ -1,15 +1,8 @@
-import { MouseEventHandler } from 'react';
-
+import { ButtonPropsType } from '../../interfaces';
 import './Button.style.css';
 
-export interface IButtonProps {
-  className: string | undefined;
-  value: any;
-  onClick: MouseEventHandler<HTMLButtonElement>;
-}
-
-const Button = ({ className, value, onClick }: IButtonProps): JSX.Element => (
-  <button className={`btn ${className}`} onClick={onClick}>
+const Button = ({ className, value, onClick }: ButtonPropsType): JSX.Element => (
+  <button className={`Button--btn ${className}`} onClick={onClick}>
     {value}
   </button>
 );

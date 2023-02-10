@@ -1,16 +1,11 @@
 import { useState } from 'react';
+import { IAppState } from '../interfaces';
 
-export interface IState {
-  res: number | string;
-  sign: string;
-  num: string | number;
-}
+export function useCalculatorState(initialState: IAppState): [IAppState, React.Dispatch<Partial<IAppState>>] {
+  const [calc, setCalc] = useState<IAppState>(initialState);
 
-export function useCalculatorState(initialState: IState): [IState, React.Dispatch<Partial<IState>>] {
-  const [calc, setCalc] = useState<IState>(initialState);
-
-  function setCalculatedState(nextState: Partial<IState>): void {
-    setCalc((prevState: IState) => ({ ...prevState, ...nextState }));
+  function setCalculatedState(nextState: Partial<IAppState>): void {
+    setCalc((prevState: IAppState) => ({ ...prevState, ...nextState }));
   }
 
   return [calc, setCalculatedState];

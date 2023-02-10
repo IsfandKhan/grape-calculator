@@ -1,4 +1,6 @@
-export const toLocaleString = (num: string | number): string =>
+import { ValueType } from './interfaces';
+
+export const toLocaleString = (num: ValueType): string =>
   String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1 ');
 
-export const removeSpaces = (num: string | number): string => num.toString().replace(/\s/g, '');
+export const removeSpaces = (num: ValueType): string => num.toString().replace(/\s/g, '');

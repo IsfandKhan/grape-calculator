@@ -1,9 +1,6 @@
+import { WrapperPropsType } from '../../interfaces';
 import './Wrapper.style.css';
 
-export interface IWrapperProps {
-  children: any;
-}
-
-const Wrapper = ({ children }: IWrapperProps): JSX.Element => <div className="wrapper">{children}</div>;
+const Wrapper = ({ children }: WrapperPropsType): JSX.Element => <div className="Wrapper--wrapper">{children}</div>;
 
 export default Wrapper;
