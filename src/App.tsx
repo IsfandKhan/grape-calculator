@@ -1,11 +1,13 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useState } from 'react';
 import { useCalculatorState } from './hooks';
 import { Wrapper, Screen, Button, ButtonBox } from './components';
 import { removeSpaces, toLocaleString } from './utils';
 import { CALCULATOR_CONFIG } from './config';
+import { ValueType } from './interfaces';
 
 const App = (): JSX.Element => {
   const [calc, setCalc] = useCalculatorState({ sign: '', number: 0, result: 0 });
+  const [expression, setExpression] = useState('');
 
   const numClickHandler = (e: MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
@@ -70,9 +72,45 @@ const App = (): JSX.Element => {
 
   const resetClickHandler = (): void => setCalc({ sign: '', number: 0, result: 0 });
 
+  const onButtonClick = (e: MouseEvent<HTMLButtonElement>, btn: ValueType) => {
+    e.preventDefault();
+    switch (btn) {
+      case 'C':
+        setExpression('')
+        return resetClickHandler();
+
+      case '+-':
+        setExpression('')
+        return invertClickHandler();
+
+      case '%':
+        setExpression('')
+        return percentClickHandler();
+
+      case '=':
+        setExpression('')
+        return equalsClickHandler();
+
+      case '/':
+      case 'X':
+      case '-':
+      case '+':
+        setExpression(expression + btn)
+        return signClickHandler(e);
+
+      case '.':
+        setExpression(expression + btn)
+        return commaClickHandler(e);
+
+      default:
+        setExpression(expression + btn);
+        numClickHandler(e);
+    }
+  };
+
   return (
     <Wrapper>
-      <Screen value={calc.number ? calc.number : calc.result} />
+      <Screen expression={expression} value={calc.result || calc.number} />
       <ButtonBox>
         {CALCULATOR_CONFIG.flat().map((btn, i) => {
           return (
@@ -80,21 +118,7 @@ const App = (): JSX.Element => {
               key={i}
               className={btn === '=' ? 'Button--equals' : undefined}
               value={btn}
-              onClick={
-                btn === 'C'
-                  ? resetClickHandler
-                  : btn === '+-'
-                  ? invertClickHandler
-                  : btn === '%'
-                  ? percentClickHandler
-                  : btn === '='
-                  ? equalsClickHandler
-                  : btn === '/' || btn === 'X' || btn === '-' || btn === '+'
-                  ? signClickHandler
-                  : btn === '.'
-                  ? commaClickHandler
-                  : numClickHandler
-              }
+              onClick={(e) => onButtonClick(e, btn)}
             />
           );
         })}
